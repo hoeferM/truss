@@ -27,6 +27,32 @@ class plot():
     def getY(self, ycordinate):
         return self.height -100 - ycordinate
 
+    def drawIntForce(self, node , direct, magnitude):       #Draw internal Forces
+        x2 = self.getX(node.x)
+        y2 = self.getY(node.y)
+        if (direct == "x"):
+            y1 = y2
+            x1 = x2 - magnitude
+        if (direct == "y"):
+            x1 = x2
+            y1 = y2 - magnitude
+        start = (x1,y1)
+        end = (x2,y2)
+        self.img = cv2.arrowedLine(self.img,start,end,(0,0,255),2)
+
+    def drawForce(self, node, force):
+        x1 = self.getX(node.x)
+        y1 = self.getY(node.y)
+        x2 = -int(force.x) + x1
+        y2 = -int(force.y) + y1
+        print(x1,y1,x2,y2)
+        print(force.y)
+        start = (x1,y1)
+        end = (x2,y2)
+        self.img = cv2.arrowedLine(self.img,start,end,(0,0,255),2)
+
+
+
     def show(self):
         cv2.imshow("Bridge plot", self.img)
         cv2.waitKey(0)

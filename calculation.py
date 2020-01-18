@@ -7,7 +7,7 @@ from plot import  plot
 from models import Node, Member, Force
 from functions import *
 
-with open('data2.json', 'r') as file:
+with open('data.json', 'r') as file:
     data_str = file.read().replace('\n', '').replace(' ', '')
 
 structur = json.loads(data_str)
@@ -41,6 +41,8 @@ widht += 200
 pl = plot(heigth,widht)
 pl.nodes(nodes)
 pl.members(members, nodes)
+for f in forces:
+    pl.drawForce(getnodebyName(f.node, nodes), f)
 
 #=================Program
 
