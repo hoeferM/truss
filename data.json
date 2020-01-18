@@ -1,5 +1,6 @@
 {
-    "notes":[
+    "mode":"2D",
+    "nodes":[
         {"name":"A", "x": 0     , "y": 0    , "z": 0, "s": true , "xf": true , "zf": true},
         {"name":"B", "x": 250   , "y": 250  , "z": 0, "s": false, "xf": false, "zf": false},
         {"name":"C", "x": 250   , "y": 0    , "z": 0, "s": false, "xf": false, "zf": false},
@@ -13,6 +14,6 @@
         {"name":"5","n1": "B" , "n2":"D"}
     ],
     "forces":[
-        {"name":"F1", "n": "C", "x": 0    , "y": 100    ,"z": 0}
+        {"name":"F1", "n": "C", "x": 0    , "y": -100    ,"z": 0}
     ]
 }

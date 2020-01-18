@@ -1,0 +1,35 @@
+{
+    "mode": "3D",
+    "nodes":[
+        {"name":"A", "x": 0     , "y": 0    , "z": 0,   "s": true , "xf": true , "zf": true},
+        {"name":"B", "x": 250   , "y": 250  , "z": 0,   "s": false, "xf": false, "zf": false},
+        {"name":"C", "x": 250   , "y": 0    , "z": 0,   "s": false, "xf": false, "zf": false},
+        {"name":"D", "x": 500   , "y": 0    , "z": 0,   "s": true , "xf": false, "zf": false},
+        {"name":"E", "x": 0     , "y": 0    , "z": 500, "s": true , "xf": true , "zf": false},
+        {"name":"F", "x": 250   , "y": 250  , "z": 500, "s": false, "xf": false, "zf": false},
+        {"name":"G", "x": 250   , "y": 0    , "z": 500, "s": false, "xf": false, "zf": false},
+        {"name":"H", "x": 500   , "y": 0    , "z": 500, "s": true , "xf": false, "zf": false}
+    ],
+    "members":[
+        {"name":"1",    "n1": "A" , "n2":"B"},
+        {"name":"2",    "n1": "A" , "n2":"C"},
+        {"name":"3",    "n1": "B" , "n2":"C"},
+        {"name":"4",    "n1": "C" , "n2":"D"},
+        {"name":"5",    "n1": "B" , "n2":"D"},
+        {"name":"6",    "n1": "E" , "n2":"F"},
+        {"name":"7",    "n1": "E" , "n2":"G"},
+        {"name":"8",    "n1": "F" , "n2":"G"},
+        {"name":"9",    "n1": "G" , "n2":"H"},
+        {"name":"10",   "n1": "F" , "n2":"H"},
+        {"name":"11",   "n1": "A" , "n2":"E"},
+        {"name":"12",   "n1": "B" , "n2":"F"},
+        {"name":"13",   "n1": "C" , "n2":"G"},
+        {"name":"14",   "n1": "D" , "n2":"H"},
+        {"name":"15",   "n1": "A" , "n2":"F"},
+        {"name":"16",   "n1": "F" , "n2":"D"}
+    ],
+    "forces":[
+        {"name":"F1", "n": "C", "x": 0    , "y": -100    ,"z": 0},
+        {"name":"F2", "n": "G", "x": 0    , "y": -100    ,"z": 0}
+    ]
+}
