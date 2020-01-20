@@ -48,8 +48,11 @@ for s in getSup(nodes):
 
 #=================Program
 
-for m in members:
-    m.getZeroComponents(nodes)
+for n in nodes:
+    if (n.unknownForces(members) <= mode):
+        print("solve -> "+n.name)
+        solveNode(n, mode, nodes, members, forces)
+
 #    m.show()
 supportReactions(mode, nodes,members,forces)
 

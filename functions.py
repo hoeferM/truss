@@ -109,4 +109,5 @@ def supportReactions(mode, nodes, members, forces):
         print(xsupports[0].name, xsupports[0].fy)
         print(lsupports[0].name, lsupports[0].fy)
             
-
+def solveNode(node, mode, nodes,members, forces):
+    pass
