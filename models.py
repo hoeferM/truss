@@ -109,6 +109,9 @@ class Member(object):
 
     def getN2y(self, nodes):
         return getnodebyName(self.n2, nodes).y
+    
+    def setfx1():
+        pass
 
     def show(self):
         print(self.fx_n1_sym, self.fx_n1_cal)
@@ -127,6 +130,15 @@ class Force(object):
         self.y = data["y"]          #Force in Y , Values in N
         self.z = data["z"]          #Force in Z , Values in N
 
+    def getNodeX(self, nodes):
+        return getnodebyName(self.node , nodes).x
+
+    def getNodeY(self, nodes):
+        return getnodebyName(self.node , nodes).y
+
+    def getNodeZ(self, nodes):
+        return getnodebyName(self.node , nodes).z
+    
     def show(self):
         print(type(self.sym))
         print(self.sym)

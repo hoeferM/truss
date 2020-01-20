@@ -1,4 +1,6 @@
-#!/usr/bin/python 
+#!/usr/in/python
+import numpy as np
+
 #=================Function Definitions
 
 
@@ -28,6 +30,13 @@ def getSupfz(nodes):         #retruns array of the names of supports that are fi
     supp = []
     for n in nodes:
         if (n.sup and n.z_fixed):
+            supp.append(n)
+    return supp
+
+def getSupl(nodes):         #retruns array of loose supports (exept for y - Direction
+    supp = []
+    for n in nodes:
+        if (n.sup and not n.x_fixed and not n.z_fixed):
             supp.append(n)
     return supp
 
@@ -66,13 +75,38 @@ def statDefined(m, nodes,mem):
     return f
 
 def supportReactions(mode, nodes, members, forces):
-    if (len(getSupfx(nodes)) == 1):
-        f = 0 
+    supports = getSup(nodes)
+    xsupports = getSupfx(nodes)
+    lsupports = getSupl(nodes)
+    sum_fy = 0
+    if (len(xsupports) == 1):
+        f = 0
         for i in forces:
             f += i.x
-        getSupfx(nodes).fx = - f
-        getSupfx(nodes).fx_calc = - f
+        getSupfx(nodes)[0].fx = - f
+        getSupfx(nodes)[0].fx_calc = True
+    else:
+        print("To many fixed supports in x-Direction")
+        return False
+    if (len(supports) == 2):
         
+        x1 = xsupports[0].x
+        y1 = xsupports[0].y
+        x2 = lsupports[0].x
+        y2 = lsupports[0].y
+        s1 = [x1,y1]
+        s2 = [x2,y2]
+        mom_f = 0
+        for f in forces:
+            dist = (f.getNodeX(nodes) - x1,f.getNodeY(nodes) - y1)
+            f_vect = (f.x, f.y)
+            mom_f += np.cross(dist, f_vect)
+            sum_fy += f.y
+        lsupports[0].fy = - (1 / (x2 - x1)) * mom_f
+        lsupports[0].fy_calc = True
         
-    pass
+        xsupports[0].fy = - sum_fy - lsupports[0].fy
+        print(xsupports[0].name, xsupports[0].fy)
+        print(lsupports[0].name, lsupports[0].fy)
+            
 
