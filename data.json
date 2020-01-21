@@ -4,7 +4,7 @@
         {"name":"A", "x": 0     , "y": 0    , "z": 0, "s": true , "xf": true , "zf": true},
         {"name":"B", "x": 250   , "y": 250  , "z": 0, "s": false, "xf": false, "zf": false},
         {"name":"C", "x": 250   , "y": 0    , "z": 0, "s": false, "xf": false, "zf": false},
-        {"name":"D", "x": 500   , "y": 0    , "z": 0, "s": true , "xf": false, "zf": false}
+        {"name":"D", "x": 1000   , "y": 0    , "z": 0, "s": true , "xf": false, "zf": false}
     ],
     "members":[
         {"name":"1","n1": "A" , "n2":"B"},

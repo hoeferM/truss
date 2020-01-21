@@ -43,23 +43,23 @@ pl.nodes(nodes)
 pl.members(members, nodes)
 for f in forces:
     pl.drawForce(getnodebyName(f.node, nodes), f)
+for s in getSup(nodes):
+    pl.drawSupport(s)
 
 #=================Program
 
-for m in members:
-    m.getZeroComponents(nodes)
+supportReactions(mode, nodes,members,forces)
+solvesystem(nodes,members,forces)
+#for n in nodes:
+#    if (n.unknownForces(members) <= mode):
+#        print("solve -> "+n.name)
+#        solveNode(n, mode, nodes, members, forces)
+#
 #    m.show()
 
 print("#######################")
 #for n in nodes:
  #   print(n.openReactions())
+pl.drawSupportForces2D(nodes)
 
-#print(statDefined(mode, nodes, members))
-#print(getSup())
-#print(getSupfx())
-#print(getSupfz())
-#print(mode)
-print(str(getnodebyName("C",nodes).x))
-
-print(members[0].getN1x(nodes))
 pl.show()
