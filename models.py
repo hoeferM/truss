@@ -1,5 +1,6 @@
 #!/usr/bin/python 
 from functions import *
+import numpy as np
 import mpmath
 from sympy import *
 
@@ -83,7 +84,7 @@ class Member(object):
         #Forces that are at the ends of the member
         self.f = 0
         self.fcalc = False
-
+        self.f_sym = symbols("F_"+ self.name)
 
     def getN1x(self, nodes):
         return getnodebyName(self.n1, nodes).x
@@ -97,14 +98,38 @@ class Member(object):
     def getN2y(self, nodes):
         return getnodebyName(self.n2, nodes).y
     
+    def getXEq(self, node, nodes):
+        if (node.name == self.n1):
+            n2 = getnodebyName(self.n2,nodes)
+        else:
+            n2 = getnodebyName(self.n1,nodes)
+        vec = (node.x - n2.x, node.y - n2.y, node.z - n2.z)
+        norm = np.linalg.norm(vec)
+        fx = - self.f_sym * vec[0]/norm
+        return fx
+
+    def getYEq(self, node, nodes):
+        if (node.name == self.n1):
+            n2 = getnodebyName(self.n2,nodes)
+        else:
+            n2 = getnodebyName(self.n1,nodes)
+        vec = (node.x - n2.x, node.y - n2.y, node.z - n2.z)
+        norm = np.linalg.norm(vec)
+        fy = - self.f_sym * vec[1]/norm
+        return fy
+
+    def getZEq(self, node, nodes):
+        if (node.name == self.n1):
+            n2 = getnodebyName(self.n2,nodes)
+        else:
+            n2 = getnodebyName(self.n1,nodes)
+        vec = (node.x - n2.x, node.y - n2.y, node.z - n2.z)
+        norm = np.linalg.norm(vec)
+        fz = - self.f_sym * vec[2]/norm
+        return fz
 
     def show(self):
-        print(self.fx_n1_sym, self.fx_n1_cal)
-        print(self.fx_n2_sym, self.fx_n2_cal)
-        print(self.fy_n1_sym, self.fy_n1_cal)
-        print(self.fy_n2_sym, self.fy_n2_cal)
-        print(self.fz_n1_sym, self.fz_n1_cal)
-        print(self.fz_n2_sym, self.fz_n2_cal)
+        print(self.f_sym)
 
 class Force(object):
     def __init__(self,data):
@@ -114,6 +139,7 @@ class Force(object):
         self.x = data["x"]          #Force in X , Values in N
         self.y = data["y"]          #Force in Y , Values in N
         self.z = data["z"]          #Force in Z , Values in N
+
 
     def getNodeX(self, nodes):
         return getnodebyName(self.node , nodes).x

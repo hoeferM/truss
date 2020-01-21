@@ -1,6 +1,7 @@
 #!/usr/in/python
 import numpy as np
-
+import mpmath
+import sympy as sym
 #=================Function Definitions
 
 
@@ -110,4 +111,55 @@ def supportReactions(mode, nodes, members, forces):
         print(lsupports[0].name, lsupports[0].fy)
             
 def solveNode(node, mode, nodes,members, forces):
-    pass
+    mem = node.getconnectedMembers(members)
+    fx = 0
+    fy = 0
+    fz = 0
+    f = []
+    for m in mem:
+        fx += m.getXEq(node, nodes)
+        fy += m.getYEq(node, nodes)
+        fz += m.getZEq(node, nodes)
+        f.append(m.f_sym)
+    print(fx)
+    print(fy)
+    print(fz)
+    fx = sym.Eq(fx + node.fx, 0)
+    fy = sym.Eq(fy + node.fy, 0)
+    fz = sym.Eq(fz + node.fz, 0)
+    print(fx,fy,fz)
+    data = sym.solve((fx,fy,fz))
+    print(data)
+
+def solvesystem(nodes, members ,forces):
+    equations = []
+    variables = []
+    for n in nodes:
+        mem = n.getconnectedMembers(members)
+        fx = 0
+        fy = 0
+        fz = 0
+        symb = []           #list of symbols in the equations
+        for m in mem:
+            fx += m.getXEq(n, nodes)
+            fy += m.getYEq(n, nodes)
+            fz += m.getZEq(n, nodes)
+            symb.append(m.f_sym)
+        for extf in forces:
+            if(extf.node == n.name):
+                fx += extf.x
+                fy += extf.y
+                fz += extf.z
+        fx = sym.Eq(fx + n.fx, 0)
+        fy = sym.Eq(fy + n.fy, 0)
+        fz = sym.Eq(fz + n.fz, 0)
+        for s in symb:
+            variables.append(s)
+        equations.append(fx)
+        equations.append(fy)
+        equations.append(fz)
+    variables = tuple(dict.fromkeys(variables))
+    equations = tuple(equations)
+    solution = sym.solve(equations,variables)
+    print(solution)
+
