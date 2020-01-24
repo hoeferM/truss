@@ -6,8 +6,9 @@ from sympy import *
 from plot import  plot
 from models import Node, Member, Force
 from functions import *
+from collections import Counter
 
-with open('data.json', 'r') as file:
+with open('design3.json', 'r') as file:
     data_str = file.read().replace('\n', '').replace(' ', '')
 
 structur = json.loads(data_str)
@@ -48,14 +49,33 @@ for s in getSup(nodes):
 
 #=================Program
 
-for m in members:
-    m.getZeroComponents(nodes)
-#    m.show()
 supportReactions(mode, nodes,members,forces)
+solvesystem(nodes,members,forces)
+for m in members:
+    print(str(m.f_sym)  + "\t Max. Load: " + str(m.getcritMass(nodes)) + " \t Length:" + str(m.length(nodes)))
+#for n in nodes:
+#    if (n.unknownForces(members) <= mode):
+#        print("solve -> "+n.name)
+#        solveNode(n, mode, nodes, members, forces)
+#
+#    m.show()
 
 print("#######################")
 #for n in nodes:
  #   print(n.openReactions())
+wmember = 100
+brakinmember = members[0]
+lengthlist = []
+for m in members:
+    lengthlist.append(m.length(nodes))
+    if(m.getcritMass(nodes) < wmember):
+        wmember = m.getcritMass(nodes)
+        brakinmember = m
+
+res = Counter(lengthlist)
+for key in res.keys():
+    print(res[key], key)
+print(str(brakinmember.f_sym)  + "\t Max. Load: " + str(brakinmember.getcritMass(nodes)))
 pl.drawSupportForces2D(nodes)
 
 pl.show()

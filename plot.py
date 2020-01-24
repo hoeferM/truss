@@ -13,7 +13,10 @@ class plot():
 
     def nodes(self, nodes):
         for n in nodes:
-            cv2.circle(self.img, (n.x + 100, self.height - 100 - n.y), 2, (255,0,0), 2)
+            x1 = n.x + 100
+            y1 = self.height - 100 - n.y
+            cv2.circle(self.img, (x1,y1 ), 2, (255,0,0), 2)
+            self.img = cv2.putText(self.img,n.name, (x1 + 15 ,y1 + 15 ), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,0), 2)
 
     def members(self, member, nodes):
         for m in member:
@@ -22,6 +25,7 @@ class plot():
             x2 = self.getX(m.getN2x(nodes))
             y2 = self.getY(m.getN2y(nodes))
             cv2.line(self.img, (x1,y1),(x2,y2),(0,0,0),1)
+            self.img = cv2.putText(self.img,m.name, (int((x1 + x2)/2)-10   ,int((y1+y2)/2)  ), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,0,200),1)
    
     def getX(self, xcordinate):
         return xcordinate + 100
@@ -45,8 +49,8 @@ class plot():
     def drawForce(self, node, force):
         x1 = self.getX(node.x)
         y1 = self.getY(node.y)
-        x2 = -int(force.x / 2) + x1
-        y2 = -int(force.y / 2) + y1
+        x2 = -int(force.x * 100) + x1
+        y2 = -int(force.y * 100) + y1
         magnitude = str(math.sqrt(force.x ** 2 + force.y ** 2))+" N"
         start = (x1,y1)
         end = (x2,y2)
