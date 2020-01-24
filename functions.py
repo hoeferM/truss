@@ -107,8 +107,8 @@ def supportReactions(mode, nodes, members, forces):
         lsupports[0].fy_calc = True
         
         xsupports[0].fy = - sum_fy - lsupports[0].fy
-        print(xsupports[0].name, xsupports[0].fy)
-        print(lsupports[0].name, lsupports[0].fy)
+        #print(xsupports[0].name, xsupports[0].fy)
+        #print(lsupports[0].name, lsupports[0].fy)
             
 def solveNode(node, mode, nodes,members, forces):
     mem = node.getconnectedMembers(members)
@@ -161,5 +161,7 @@ def solvesystem(nodes, members ,forces):
     variables = tuple(dict.fromkeys(variables))
     equations = tuple(equations)
     solution = sym.solve(equations,variables)
-    print(solution)
-
+    for m in members:
+        if(solution[m.f_sym]):
+            m.f = solution[m.f_sym]
+            m.fcalc = True

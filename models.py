@@ -3,7 +3,7 @@ from functions import *
 import numpy as np
 import mpmath
 from sympy import *
-
+from math import pi
 #=================Class Definitions
 
 class Node(object):
@@ -127,6 +127,27 @@ class Member(object):
         norm = np.linalg.norm(vec)
         fz = - self.f_sym * vec[2]/norm
         return fz
+
+    def getFkrit(self,nodes):
+        L = self.length(nodes)
+        I = 0.36           #Moment of inertia of a Spaghetti
+        E = 3.5              #Young-Modulo of spaghetti
+        return ((4 * pi**2)/L**2) * E * I * 1000
+
+    def getcritMass(self,nodes):
+        if(self.f == 0):
+            return sym.oo
+        elif(self.f > 0):
+            return 64.16/(self.f * 9.81)
+        else:
+            return - self.getFkrit(nodes)/(self.f * 9.81)
+    
+    def length(self, nodes):
+        n1 = getnodebyName(self.n1,nodes) 
+        n2 = getnodebyName(self.n2,nodes) 
+        vec = (n1.x - n2.x, n1.y - n2.y, n1.z - n2.z)
+        return np.linalg.norm(vec)
+
 
     def show(self):
         print(self.f_sym)
